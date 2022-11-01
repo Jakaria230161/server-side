@@ -7,3 +7,11 @@ POST
 5, Make sure to use JSON.stringify to sent data
 6, use express.json() as middleware
 */
+
+/* 
+Sign up mongodb atlas
+1,data base user create
+2, whitelist your ip address
+3,database> connect> show entire code
+4,npm i mongodb
+*/
