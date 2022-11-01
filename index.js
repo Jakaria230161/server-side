@@ -28,18 +28,21 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 async function run() {
     try {
         const userCollection = client.db('simpleNode').collection('users');
-        const user = { name: 'Jakaria mahmud', email: 'mahmud016@gmail.com' }
+        // const user = { name: 'Jakaria mahmud', email: 'mahmud016@gmail.com' }
         // const result = await userCollection.insertOne(user);
         // console.log(result);
+        app.get('/users', async (req, res) => {
+            const cursor = userCollection.find({});
+            const users = await cursor.toArray();
+            res.send(users);
+        })
+
         app.post('/users', async (req, res) => {
-    const user = req.body;
-    // user.id = users.length + 1;
-    // users.push(user);
-    // console.log(user)
+            const user = req.body;
             const result = await userCollection.insertOne(user);
             console.log(result);
-            user.id = result.insertedId;
-    res.send(user);
+            user._id = result.insertedId;
+            res.send(user);
 })
     }
     finally {
@@ -49,17 +52,17 @@ async function run() {
 run().catch(console.dir);
 
 
-app.get('/users', (req, res) => {
-    if (req.query.name) {
-        const search = req.query.name;
-        // filter users by query
-        const filtered = users.filter(usr => usr.name.toLowerCase().indexOf(search) >= 0);
-        res.send(filtered);
-    }
-    else {
-        res.send(users);
-    }
-})
+// app.get('/users', (req, res) => {
+//     if (req.query.name) {
+//         const search = req.query.name;
+//         // filter users by query
+//         const filtered = users.filter(usr => usr.name.toLowerCase().indexOf(search) >= 0);
+//         res.send(filtered);
+//     }
+//     else {
+//         res.send(users);
+//     }
+// })
 
 // app.post('/users', (req, res) => {
 //     const user = req.body;
